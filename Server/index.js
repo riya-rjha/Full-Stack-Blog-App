@@ -2,7 +2,10 @@ import express from "express";
 import "dotenv/config";
 import postRouter from "./Routes/post.js";
 import mongoose from "mongoose";
-import userRouter from "./Routes/auth.js";
+import authRouter from "./Routes/auth.js";
+import userRouter from "./Routes/user.js";
+import notificationRouter from "./Routes/notification.js";
+import searchRouter from "./Routes/search.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -30,7 +33,21 @@ app.use(
 app.use("/post", postRouter);
 
 // Setting up User authentication Route
-app.use("/auth", userRouter);
+app.use("/auth", authRouter);
+
+// Setting up User management Route
+app.use("/user", userRouter);
+
+// Setting up Notification Route
+app.use("/notifications", notificationRouter);
+
+// Setting up Search Route
+app.use("/search", searchRouter);
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({ message: "BlogHub API is running!" });
+});
 
 const connectToDatabase = async () => {
   try {
